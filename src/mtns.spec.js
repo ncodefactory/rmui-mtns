@@ -1,114 +1,45 @@
 import { expect } from 'chai';
-import { encoder, decoder } from './rmuiPasswd';
+import fs from 'fs';
+import mtns from './mtns';
 
-describe('rmuiPasswd', () => {
-  describe('with secret string', () => {
-    const secret = 'verysecretstring';
-    const encode = encoder(secret);
-    const decode = decoder(secret);
-    describe('encode', () => {
-      describe('returns', () => {
-        it('null for null', () => {
-          const toEncode = null;
-          const encoded = encode(toEncode);
-          expect(encoded).to.equal(null);
-        });
-        it('undefined for undefined', () => {
-          const toEncode = undefined;
-          const encoded = encode(toEncode);
-          expect(encoded).to.equal(undefined);
-        });
-        it('empty string for empty string', () => {
-          const toEncode = undefined;
-          const encoded = encode(toEncode);
-          expect(encoded).to.equal(undefined);
-        });
-      });
-    });
-    describe('decode', () => {
-      describe('returns', () => {
-        it('null for null', () => {
-          const toDecode = null;
-          const decoded = decode(toDecode);
-          expect(decoded).to.equal(null);
-        });
-        it('undefined for undefined', () => {
-          const toDecode = undefined;
-          const decoded = decode(toDecode);
-          expect(decoded).to.equal(undefined);
-        });
-        it('empty string for empty string', () => {
-          const toDecode = undefined;
-          const decoded = decode(toDecode);
-          expect(decoded).to.equal(undefined);
-        });
-      });
-    });
-
-    it('properly encode and decode correct data', () => {
-      const expected = 'test';
-      const value = decode(encode(expected));
-      expect(value).to.equal(expected);
-    });
+describe('mtns', () => {
+  const content = fs.readFileSync('./src/maat.tns');
+  const mtnses = mtns(content);
+  it('parses all items', () => {
+    expect(mtnses.length).to.equal(4);
   });
-
-  describe('without secret string', () => {
-    const secret = undefined;
-    const encode = encoder(secret);
-    const decode = decoder(secret);
-    describe('encode', () => {
-      describe('returns', () => {
-        it('null for null', () => {
-          const toEncode = null;
-          const encoded = encode(toEncode);
-          expect(encoded).to.equal(null);
-        });
-        it('undefined for undefined', () => {
-          const toEncode = undefined;
-          const encoded = encode(toEncode);
-          expect(encoded).to.equal(undefined);
-        });
-        it('empty string for empty string', () => {
-          const toEncode = undefined;
-          const encoded = encode(toEncode);
-          expect(encoded).to.equal(undefined);
-        });
-        it('not changed password for not empty string', () => {
-          const toEncode = 'password';
-          const encoded = encode(toEncode);
-          expect(encoded).to.equal(toEncode);
-        });
+  describe('correctly parses', () => {
+    it('two elements with a terminating semicolon', () => {
+      expect(mtnses[0]).to.deep.equal({
+        name: 'one@two',
+        connStrName: 'two',
+        user: 'one',
+        passwd: null,
       });
     });
-    describe('decode', () => {
-      describe('returns', () => {
-        it('null for null', () => {
-          const toDecode = null;
-          const decoded = decode(toDecode);
-          expect(decoded).to.equal(null);
-        });
-        it('undefined for undefined', () => {
-          const toDecode = undefined;
-          const decoded = decode(toDecode);
-          expect(decoded).to.equal(undefined);
-        });
-        it('empty string for empty string', () => {
-          const toDecode = undefined;
-          const decoded = decode(toDecode);
-          expect(decoded).to.equal(undefined);
-        });
-        it('not changed encoded data for not empty string', () => {
-          const toDecode = 'encoded passwd';
-          const decoded = decode(toDecode);
-          expect(decoded).to.equal(toDecode);
-        });
+    it('two elements without a terminating semicolon', () => {
+      expect(mtnses[1]).to.deep.equal({
+        name: 'three@four',
+        connStrName: 'four',
+        user: 'three',
+        passwd: null,
       });
     });
-
-    it('properly encode and decode correct data', () => {
-      const expected = 'test';
-      const value = decode(encode(expected));
-      expect(value).to.equal(expected);
+    it('three elements with a terminating semicolon', () => {
+      expect(mtnses[2]).to.deep.equal({
+        name: 'five@six',
+        connStrName: 'six',
+        user: 'five',
+        passwd: 'seven',
+      });
+    });
+    it('three elements without a terminating semicolon', () => {
+      expect(mtnses[3]).to.deep.equal({
+        name: 'eight@nine',
+        connStrName: 'nine',
+        user: 'eight',
+        passwd: 'ten',
+      });
     });
   });
 });
