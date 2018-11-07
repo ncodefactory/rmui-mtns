@@ -1,5 +1,5 @@
 const parseLine = (line) => {
-  const elements = line.toLowerCase().split(';');
+  const elements = line.trim().toLowerCase().split(';');
   const passwdElement = elements[2];
   return {
     name: `${elements[0]}@${elements[1]}`,
