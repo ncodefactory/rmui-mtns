@@ -1,3 +1,4 @@
-import { encoder, decoder } from './rmuiPasswd';
+import tnsn from './tnsn';
+import mtns from './mtns';
 
-export { encoder, decoder };
+export { mtns, tnsn };
