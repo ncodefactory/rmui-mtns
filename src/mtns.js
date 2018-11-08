@@ -1,5 +1,8 @@
 const parseLine = (line) => {
-  const elements = line.trim().toLowerCase().split(';');
+  const elements = line
+    .trim()
+    .toLowerCase()
+    .split(';');
   const passwdElement = elements[2];
   return {
     name: `${elements[0]}@${elements[1]}`,
@@ -11,7 +14,7 @@ const parseLine = (line) => {
 
 const mtns = (content) => {
   const strContent = typeof content === 'string' ? content.split('\n') : content.toString().split('\n');
-  return strContent.map(parseLine);
+  return strContent.filter(line => line.trim().length).map(parseLine);
 };
 
 export default mtns;
