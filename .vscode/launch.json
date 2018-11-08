@@ -11,7 +11,7 @@
       "program": "${workspaceRoot}/src/app.js",
       "outFiles": ["${workspaceRoot}/.compiled/**/*.js"],
       "internalConsoleOptions": "openOnSessionStart",
-      "runtimeExecutable": "~/.nvm/versions/node/v10.13.0/bin/node",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v10.13.0/bin/node",
     },
     {
       "type": "node",
@@ -20,7 +20,7 @@
       "program": "${file}",
       "outFiles": ["${workspaceRoot}/.compiled/**/*.js"],
       "internalConsoleOptions": "openOnSessionStart",
-      "runtimeExecutable": "~/.nvm/versions/node/v10.13.0/bin/node",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v10.13.0/bin/node",
     },
     {
       "name": "DEBUG All Tests",
@@ -40,7 +40,7 @@
       "sourceMaps": true,
       "outFiles": ["${workspaceRoot}/.compiled/**/*.js"],
       "internalConsoleOptions": "openOnSessionStart",
-      "runtimeExecutable": "~/.nvm/versions/node/v10.13.0/bin/node",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v10.13.0/bin/node",
     },
     {
       "name": "RUN Current Test File (without debugging)",
